@@ -1,5 +1,5 @@
 import random
-
+import copy
 
 def check(table, player):
     for i in range(10):
@@ -28,6 +28,16 @@ def choice_of_move(table):
         for j in range(10):
             if table[i][j] == 0:
                 possible_moves.append((i, j))
-    return possible_moves[random.randint(0, len(possible_moves) - 1)]
+
+    while len(possible_moves) > 0:
+        temp_table = copy.copy(table)
+        index = random.randint(0, len(possible_moves) - 1)
+        move = possible_moves[index]
+        temp_table[move[0]][move[1]] = -1
+        if check(temp_table, -1) != 1:
+            break
+        else:
+            possible_moves.pop(index)
+    return move
 
 
